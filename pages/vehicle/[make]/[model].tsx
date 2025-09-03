@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import FinanceCalculator from '../../../src/components/FinanceCalculator';
 import Link from 'next/link';
+import LogoHeader from '../../../src/components/LogoHeader';
 
 type Vehicle = {
   id: string;
@@ -73,6 +74,11 @@ const Card = styled.section`
   padding: 1rem;
 `;
 
+const BackLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+`;
 const KV = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
@@ -105,7 +111,8 @@ export default function VehiclePage({ vehicle, quote, error }: Props) {
 
   return (
     <Wrap>
-      <p><Link href="/vehicleSearch">← Back to search</Link></p>
+      <LogoHeader/>
+      <BackLink href="/vehicleSearch">← Back to search</BackLink>
       <h1>{vehicle.year} {vehicle.make} {vehicle.model}</h1>
       <Grid>
         <Card>

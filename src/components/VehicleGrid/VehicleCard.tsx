@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
 export type Vehicle = {
@@ -13,13 +13,33 @@ export type Vehicle = {
   imageUrl?: string;
 };
 
-const Card = styled.article`
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const Card = styled.a`
   border: 1px solid #eef0f2;
   border-radius: 12px;
   background: #fff;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.25s ease;
+  cursor: pointer;
+  animation: ${fadeIn} 0.4s ease forwards;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
 `;
 
 const Thumb = styled.div<{ $src: string }>`
@@ -50,12 +70,10 @@ const Row = styled.div`
   color: #344054;
 `;
 
-const CTA = styled.a`
-  display: inline-flex;
-  justify-content: flex-end;
-  margin-top: 0.75rem;
-  color: #0b1220;
-  font-weight: 600;
+const ClickLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 `;
 
 export default function VehicleCard({ v }: { v: Vehicle }) {
@@ -80,36 +98,38 @@ export default function VehicleCard({ v }: { v: Vehicle }) {
   }, [v.imageUrl]);
 
   return (
-    <Card>
-      <Thumb $src={imgSrc}>
-        {isFallback && <NoImageLabel>No image</NoImageLabel>}
-      </Thumb>
-      <Body>
-        <h3 style={{ margin: '0 0 0.25rem' }}>
-          {v.year} {v.make} {v.model}
-        </h3>
-        <Row>
-          <span>Price</span>
-          <strong>£{v.price.toLocaleString()}</strong>
-        </Row>
-        <Row>
-          <span>Mileage</span>
-          <span>{v.mileage.toLocaleString()} mi</span>
-        </Row>
-        <Row>
-          <span>Colour</span>
-          <span>{v.colour || '—'}</span>
-        </Row>
-        <Link
-          href={{
-            pathname: `/vehicle/${encodeURIComponent(v.make)}/${encodeURIComponent(v.model)}`,
-            query: { id: v.id },
-          }}
-          passHref
-        >
-          <CTA>View details →</CTA>
-        </Link>
-      </Body>
-    </Card>
+    <ClickLink
+      href={{
+        pathname: `/vehicle/${encodeURIComponent(v.make)}/${encodeURIComponent(v.model)}`,
+        query: { id: v.id },
+      }}
+      passHref
+    >
+      <Card>
+        <Thumb $src={imgSrc}>
+          {isFallback && <NoImageLabel>No image</NoImageLabel>}
+        </Thumb>
+        <Body>
+          <h3 style={{ margin: '0 0 0.25rem' }}>
+            {v.year} {v.make} {v.model}
+          </h3>
+          <Row>
+            <span>Price</span>
+            <strong>£{v.price.toLocaleString()}</strong>
+          </Row>
+          <Row>
+            <span>Mileage</span>
+            <span>{v.mileage.toLocaleString()} mi</span>
+          </Row>
+          <Row>
+            <span>Colour</span>
+            <span>{v.colour || '—'}</span>
+          </Row>
+          <span style={{ display: 'inline-block', marginTop: '0.75rem', fontWeight: 600 }}>
+            View details →
+          </span>
+        </Body>
+      </Card>
+    </ClickLink>
   );
 }
