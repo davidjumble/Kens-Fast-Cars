@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { computeFinance } from '../lib/finance';
 
 const Row = styled.div` display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem; `;
-const Input = styled.input` height: 2.5rem; border-radius: 10px; border: 1px solid #d9dde3; padding: 0 0.5rem; `;
+const Input = styled.input` height: 2.5rem; border-radius: 10px; border: 1px solid #d9dde3; padding: 0 0.5rem; margin: 20px; `;
 const Box = styled.div` border: 1px solid #eef0f2; border-radius: 10px; padding: 0.5rem; background:#fff; `;
 const KV = styled.div` display:grid; grid-template-columns: 1fr auto; padding: 0.25rem 0; `;
 
